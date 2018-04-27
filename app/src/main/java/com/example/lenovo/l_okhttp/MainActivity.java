@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+
+import java.io.IOException;
 
 import static com.example.lenovo.l_okhttp.R.id.btn_Post;
 import static com.example.lenovo.l_okhttp.R.id.btn_get;
@@ -57,10 +63,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void httpPost() {
+        okHttpUtil.requestGet(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String strRet = response.body().string();
+                Message msg = mHandler.obtainMessage();
+                msg.obj = "Post方法获取数据 ---> "+"  " +strRet;
+                mHandler.sendMessage(msg);
+
+            }
+        });
     }
 
     public void httpGet() {
+        okHttpUtil.requestGet(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String strRet = response.body().string();
+                Message msg = mHandler.obtainMessage();
+                msg.obj = "Get方法获取数据 ----> "+"  " + strRet;
+                mHandler.sendMessage(msg);
+            }
+        });
     }
 }
